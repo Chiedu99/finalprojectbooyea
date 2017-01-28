@@ -1,3 +1,6 @@
+# Chiedu Nduka-Eze  1/27/17
+#This code will create a game in which you must dodge enemies and projectiles that come after you
+
 import pygame
 import enemy
 import hero
