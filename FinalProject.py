@@ -2,9 +2,9 @@ import pygame
 import enemy
 import hero
 import ultrode
-import Shakazulu
+import shakazulu
 import meruem
-import prpjectile
+import projectile
 import random
 from pygame.locals import *
 import sys
@@ -18,63 +18,68 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 APPLICATION_WIDTH = 400
 APPLICATION_HEIGHT = 600
-NUM_TURNS= 4
+NUM_TURNS = 4
 SCORE = 0
-MAX= 450
+MAX = 450
 pygame.init()
+# This sets up the window
 mainSurface = pygame.display.set_mode((1000, MAX), 0, 32)
 increasespeed = False
 currentscore = SCORE
 mainSurface.fill(WHITE)
+# this creates the instance of the hero
 hero1 = hero.Hero()
 hero1.rect.x = 0
 hero1.rect.y = APPLICATION_HEIGHT/2
 mainSurface.blit(hero1.image, hero1.rect)
+# this creates the instance of the enemy ultrode
 ultrode1 = ultrode.Ultrode()
-shakazulu1 = Shakazulu.Shakazulu()
-shakazulu1.rect.x = 1100
-shakazulu1.rect.y = random.randint(1,200)
 ultrode1.rect.x = 1100
-ultrode1.rect.y = random.randint(1,400)
+ultrode1.rect.y = random.randint(1, 400)
+# This creates the instance of the enemy shakazulu
+shakazulu1 = shakazulu.Shakazulu()
+shakazulu1.rect.x = 1100
+shakazulu1.rect.y = random.randint(1, 200)
 mainSurface.blit(ultrode1.image, ultrode1.rect)
+# This creates the instance of the enemy meruem
 meruem1 = meruem.Meruem()
 meruem1.rect.x = 1100
-meruem1.rect.y = random.randint(1,650)
+meruem1.rect.y = random.randint(1, 650)
 mainSurface.blit(meruem1.image, meruem1.rect)
-projectileU = prpjectile.Projectile(10, 10, 15)
+# this creates the different projectiles for each enemy
+projectileU = projectile.Projectile(10, 10, 4)
 projectileU.rect.x = ultrode1.rect.x
 projectileU.rect.y = ultrode1.rect.y
-projectileS = prpjectile.Projectile(20, 15, 10)
+projectileS = projectile.Projectile(20, 15, 2)
 projectileS.rect.x = shakazulu1.rect.x
 projectileS.rect.y = shakazulu1.rect.y
-projectileM = prpjectile.Projectile(15, 5, 20)
+projectileM = projectile.Projectile(15, 5, 6)
 projectileM.rect.x = meruem1.rect.x
 projectileM.rect.y = meruem1.rect.y
 ultrode2 = ultrode.Ultrode()
-shakazulu2 = Shakazulu.Shakazulu()
+shakazulu2 = shakazulu.Shakazulu()
 shakazulu2.rect.x = 1100
-shakazulu2.rect.y = random.randint(1,200)
+shakazulu2.rect.y = random.randint(1, 200)
 ultrode2.rect.x = 1100
-ultrode2.rect.y = random.randint(1,400)
+ultrode2.rect.y = random.randint(1, 400)
 mainSurface.blit(ultrode2.image, ultrode2.rect)
 meruem2 = meruem.Meruem()
 meruem2.rect.x = 1100
-meruem2.rect.y = random.randint(1,650)
+meruem2.rect.y = random.randint(1, 650)
 mainSurface.blit(meruem2.image, meruem2.rect)
-projectileU2 = prpjectile.Projectile(10, 10, 15)
+projectileU2 = projectile.Projectile(10, 10, 15)
 projectileU2.rect.x = ultrode2.rect.x
 projectileU2.rect.y = ultrode2.rect.y
-projectileS2 = prpjectile.Projectile(20, 15, 10)
+projectileS2 = projectile.Projectile(20, 15, 10)
 projectileS2.rect.x = shakazulu2.rect.x
 projectileS2.rect.y = shakazulu2.rect.y
-projectileM2 = prpjectile.Projectile(15, 5, 20)
+projectileM2 = projectile.Projectile(15, 5, 20)
 projectileM2.rect.x = meruem2.rect.x
 projectileM2.rect.y = meruem2.rect.y
 
-
-
 pygame.display.update()
-enemyGroup= pygame.sprite.Group()
+# This adds both the enemies and prjoectiles into sprite groups
+enemyGroup = pygame.sprite.Group()
 enemyGroup.add(ultrode1)
 enemyGroup.add(shakazulu1)
 enemyGroup.add(meruem1)
@@ -92,7 +97,6 @@ heroGroup = pygame.sprite.Group()
 heroGroup.add(hero1)
 
 
-
 while True:
   for event in pygame.event.get():
       if event.type == QUIT:
@@ -100,20 +104,21 @@ while True:
           sys.exit()
   mainSurface.fill(WHITE)
 
+# This repawns the enemy after they leave the screen
   for enemy in enemyGroup:
       enemy.move()
       if shakazulu1.rect.right < 0:
-          shakazulu1.rect.x = random.randint(1000,1200)
+          shakazulu1.rect.x = random.randint(1000, 1200)
           shakazulu1.rect.y = random.randint(1, MAX)
           SCORE += 1
 
       if ultrode1.rect.right < 0:
-          ultrode1.rect.x =  random.randint(1000,1200)
+          ultrode1.rect.x =  random.randint(1000, 1200)
           ultrode1.rect.y = random.randint(1, MAX)
           SCORE += 1
 
       if meruem1.rect.right < 0:
-          meruem1.rect.x =  random.randint(1000,1200)
+          meruem1.rect.x =  random.randint(1000, 1200)
           meruem1.rect.y = random.randint(1, MAX)
           SCORE += 1
 
@@ -136,7 +141,7 @@ while True:
 
 
       mainSurface.blit(enemy.image, enemy.rect)
-
+# This respawns the projectile for each enemy
   for projectile in projectileGroup:
       projectile.move()
       if projectileM.rect.right < -150:
@@ -166,7 +171,7 @@ while True:
           projectileS2.rect.y = shakazulu2.rect.y
 
       mainSurface.blit(projectile.image, projectile.rect)
-
+# This handles the sprite collisions for the projectiles and decreases turns after every hit
       for projectile in projectileGroup:
           if pygame.sprite.spritecollide(projectileU, heroGroup, False):
               projectileU.rect.x = ultrode1.rect.x
@@ -195,35 +200,29 @@ while True:
           if SCORE % 20 == 0 and SCORE != 0:
               increasespeed = True
               currentscore = SCORE
-
+# This increases the speed of everything after
           if currentscore != SCORE and increasespeed:
                 currentscore = 20
-                projectileM.speedx += 2
-                projectileS.speedx += 2
-                projectileU.speedx += 2
-                projectileM2.speedx += 2
-                projectileS2.speedx += 2
-                projectileU2.speedx += 2
-                shakazulu1.speedx += 2
-                meruem1.speedx += 2
-                ultrode1.speedx += 2
-                shakazulu2.speedx += 2
-                ultrode2.speedx += 2
-                meruem2.speedx += 2
+                projectileM.speedx += 1
+                projectileS.speedx += 1
+                projectileU.speedx += 1
+                projectileM2.speedx += 1
+                projectileS2.speedx += 1
+                projectileU2.speedx += 1
+                shakazulu1.speedx += 1
+                meruem1.speedx += 1
+                ultrode1.speedx += 1
+                shakazulu2.speedx += 1
+                ultrode2.speedx += 1
+                meruem2.speedx += 1
                 increasespeed = False
-
-
-
-
 
   hero1.move()
   mainSurface.blit(hero1.image, hero1.rect)
   print(NUM_TURNS)
   print(SCORE)
-
+# This ends the game after you lose all your lives
   if NUM_TURNS <= 0:
       pygame.quit()
       sys.exit()
   pygame.display.update()
-
-
